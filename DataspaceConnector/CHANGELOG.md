@@ -1,0 +1,975 @@
+
+# Changelog
+All notable changes to this project will be documented in this file.
+
+## [X.X.X] - XXXX-XX-XX
+
+### Changed
+- Truststore-alias was removed
+
+### Dependencies
+- Bump opentelemetry.version from 1.19.0 to 1.20.1
+- Bump opentelemetry-semconv.version from 1.19.0-alpha to 1.20.1-alpha
+- Bump idscp2.version from 0.11.1 to 0.13.3
+- Bump spring-security-core.version from 5.7.3 to 5.7.5
+- Bump pmd.version from 6.50.0 to 6.52.0
+- Bump springdoc.version from 1.6.11 to 1.6.13
+- Bump jackson-databind from 2.14.0-rc1 to 2.14.1
+- Bump jackson.version from 2.14.0-rc1 to 2.14.1
+- Bump pitest-maven from 1.9.7 to 1.9.11
+- Bump swagger-annotations from 1.6.7 to 1.6.9
+- Bump jose4j from 0.9.0 to 0.9.2
+- Bump versions-maven-plugin from 2.12.0 to 2.13.0
+- Bump protobuf-java from 3.21.7 to 3.21.9
+- Bump flyway-core from 9.4.0 to 9.8.3
+- Bump spotbugs-annotations from 4.7.2 to 4.7.3
+- Bump spring-boot-starter-parent from 2.7.4 to 2.7.5
+- Bump dependency-check-maven from 7.2.1 to 7.3.2
+- Bump equalsverifier from 3.10.1 to 3.11.1
+- Bump checkstyle from 10.3.4 to 10.5.0
+- Bump postgresql version from 42.5.0 to 42.5.1
+
+## [8.0.2] - 2022-10-11
+
+### Added
+- Migration file for version 8.0.2.
+
+### Fixed
+- Fix a mismatch between the database if created with or without flyway.
+
+### Dependencies
+- Bump maven-checkstyle-plugin version from 3.1.2 to 3.2.0
+- Bump checkstyle from 10.3.2 to 10.3.4
+- Bump maven-pmd-plugin version from 3.17.0 to 3.19.0
+- Bump postgresql version from 42.4.2 to 42.5.0
+- Bump camel-idscp2 version from 0.10.3 to 0.11.1
+- Bump dependency-check-maven version from 7.1.1 to 7.2.1
+- Bump pitest-maven from 1.9.4 to 1.9.7
+- Bump flyway-core from 9.1.6 to 9.4.0
+- Bump pmd.version from 6.48.0 to 6.50.0
+- Bump jackson.version from 2.13.3 to 2.14.0-rc1
+- Bump jose4j from 0.7.12 to 0.9.0
+- Bump pitest-junit5-plugin from 1.0.0 to 1.1.0
+- Bump spotbugs-annotations from 4.7.1 to 4.7.2
+- Bump jackson-databind from 2.13.3 to 2.14.0-rc1
+- Bump versions-maven-plugin from 2.11.0 to 2.12.0
+- Bump camel.version from 3.18.1 to 3.19.0
+- Bump opentelemetry-semconv from 1.17.0-alpha to 1.19.0-alpha
+- Bump opentelemetry.version from 1.17.0 to 1.19.0
+- Bump springframework.version from 5.3.22 to 5.3.23
+- Bump protobuf-java from 3.21.5 to 3.21.7
+- Bump dependency-check-maven from 7.1.2 to 7.2.0
+- Bump spring-boot-starter-parent from 2.7.3 to 2.7.4
+- Bump commons-text from 1.9 to 1.10.0
+- Bump swagger-annotations from 1.6.6 to 1.6.7
+- Bump tidy-maven-plugin from 1.1.0 to 1.2.0
+- Bump actions/cache from 3.0.8 to 3.0.10
+- Bump spotbugs-maven-plugin from 4.7.1.1 to 4.7.2.1
+- Bump camel-idscp2 from 0.11.1 to 0.12.1
+- Bump snakeyaml.version from 1.30 to 1.32
+
+## [8.0.1] - 2022-08-31
+
+### Fixed
+- Fix route reference check. The DSC now uses the UUID to prove if a remote data is a route or not.
+
+## [8.0.0] - 2022-08-23
+
+
+### Major Changes
+- Renamed reserved keywords columns in model classes for newer H2 versions and MSSQL. Please enable database migration.
+
+### Added
+- Add `daps.whitelisted.url` to `application.properties.`. Allows configuring whitelisted DAPS URLs already at configuration time.
+- Introduction of the setting `referred.check=true/false` in the application.properties. Enables or disables DAT claim referringConnector vs IDS message issuerConnector validation. Disabled by default.
+- Updated Connector container architecture overview in Readme and documentation.
+
+### Fixed
+- Fix bootstrapping with broker registration. The DSC now searches for the correct resource id when bootstrapping.
+- Removed trivyignore file.
+- e2e-tests now delete the PVC (PersistentVolumeClaim) and PV (PersistentVolume) during cleanup phase.
+- Requesting the same local-data artifact multiple times now updates the data-record in the database for the artifact instead of creating a new data-record.
+- OpenApi specification: made tag names unique, removed not allowed additional properties.
+- Excluded old IAIS http repository from build at top level since no longer accessible but used from transitive dependencies, which could lead to a build timeout. Repository and its artifacts now reachable via https.
+- Replaced telemetry collection via OpenTracing with OpenTelemetry with Jaeger export.
+- Accessing the public self-description endpoint is now also possible for logged in admins.
+- The connector public key is now also persisted.
+- Set URI-converter and column-length for location in AppStore-entity. Tested AppStore-App deployment with Portainer 2.14.0
+- Query parameters are ignored if a query parameter with the same key is already defined in the target url
+- Removed hyphen in docker env var file which led to unexpected character exception
+- Fix DSC version, curator and maintainer fields when accessing the self description
+
+### Changed
+- Code base refactorings and removing of unused code.
+- Replace deprecated JPA calls `getById` with `findById`.
+- Replace deprecated spring security `WebSecurityConfigurerAdapter` with use of `SecurityFilterChain`.
+- Replace deprecated `podAnnotation` `seccomp` with use of `podSecurityContext` `seccompProfile`.
+- Removed debug-logging built request messages, all messages can now be logged via the IDS-Messaging-Services instead.
+
+### Dependencies
+- Update ids-messaging-services from 6.1.0 to 7.0.0.
+- Update okhttp version from 4.9.3 to 4.10.0.
+- Update pmd version from 6.44.0 to 6.48.0.
+- Update pmd-plugin version from 3.16.0 to 3.17.0.
+- Update maven-enforcer-plugin version from 3.0.0 to 3.1.0.
+- Update maven-surefire-plugin version from 3.0.0-M6 to 3.0.0-M7.
+- Update pitest-maven version from 1.7.5 to 1.9.4.
+- Update pitest-junit5-plugin version from 0.16 to 1.0.0.
+- Update com.puppycrawl.tools:checkstyle version from 10.1 to 10.3.2.
+- Update org.owasp:dependency-check-maven from version 7.0.4 to 7.1.2.
+- Update org.springframework.boot:spring-boot-starter-parent from 2.6.6 to 2.7.3.
+- Update com.google.protobuf:protobuf-java version from 3.20.0 to 3.21.5.
+- Update org.apache.maven.plugins:maven-site-plugin version from 3.11.0 to 3.12.1.
+- Update org.apache.maven.plugins:maven-javadoc-plugin version from 3.3.2 to 3.4.1.
+- Update org.apache.maven.plugins:maven-project-info-reports-plugin version from 3.2.2 to 3.4.1.
+- Update org.postgresql:postgresql version from 42.3.3 to 42.4.2.
+- Update springframework version from 5.3.18 to 5.3.22.
+- Update com.h3xstream.findsecbugs:findsecbugs-plugin version from 1.11.0 to 1.12.0.
+- Update org.flywaydb:flyway-core version from 8.5.5 to 9.1.6.
+- Update springdoc version from 1.6.6 to 1.6.11.
+- Update de.fhg.aisec.ids:camel-idscp2 version from 0.6.0 to 0.10.3.
+- Update camel version from 3.16.0 to 3.18.1.
+- Update jackson version from 2.13.2 to 2.13.3.
+- Update spotbugs version from 4.6.0 to 4.7.1.
+- Update com.github.spotbugs:spotbugs-maven-plugin version from 4.6.0.0 to 4.7.1.1.
+- Update com.fasterxml.jackson.core:jackson-databind version from 2.13.2.2 to 2.13.3.
+- Update org.codehaus.mojo:versions-maven-plugin version from 2.10.0 to 2.11.0.
+- Removed io.opentracing.contrib:opentracing-spring-jaeger-web-starter
+- Add io.opentelemetry:opentelemetry-api and -sdk and -exporter-jaeger version 1.17.0
+- Add io.opentelemetry:opentelemetry-semconv version 1.17.0-alpha
+- Add io.jsonwebtoken:jjwt-impl and :jjwt-api version 0.11.5.
+- Add org.bitbucket.b_c:jose4j version 0.7.12.
+- Add h2 versioning and update to version 2.1.212.
+- Add com.microsoft.sqlserver:mssql-jdbc version 10.2.0.jre17.
+
+## [7.1.0] - 2022-04-06
+
+### Added
+- Add additional field to `GenericEndpointView`.
+- New APIs: Manageable DAPS entities (CRUD APIs)
+- New Feature: DAPS whitelisting for producitve deployment: It is now possible to whitelist DAPS and to restrict data exchange with IDS Connectors that receive their DATs from whitelisted DAPS. In the default case without changes, all DAPS are trusted. For this purpose the column `whitelisted=true/false` is available at the DAPS entites. To activate the whitelisting functionality, there must be at least one DAPS entity with `whitelisted=true` (this can also be the DAPS used by the connector to only trust the own used DAPS). If a message with a DAT arrives while whitelisting is active and from a non-whitelisted DAPS, the message is rejected with a RejectionMessage.
+
+### Fixed
+- Derive maven compiler version globally in pom instead of setting it individually.
+
+### Changed
+- Updating of the connector branding.
+
+### Removed
+- Removed com.mycila:license-maven-plugin to support multiple different license headers.
+
+### Dependency Maintenance
+- Update jackson version from 2.13.1 to 2.13.2.
+- Add jackson-databind version 2.13.2.2.
+- Update org.springframework version from 5.3.15 to 5.3.18.
+- Update org.springframework.boot:spring-boot-starter-parent from 2.6.3 to 2.6.6.
+- Update maven-surefire-plugin version from 3.0.0-M5 to 3.0.0-M6.
+- Update org.modelmapper:modelmapper version from 3.0.0 to 3.1.0.
+- Update nl.jqno.equalsverifier:equalsverifier version from 3.9 to 3.10.1.
+- Update org.apache.maven.plugins:maven-javadoc-plugin version from 3.3.1 to 3.3.2.
+- Update org.pitest:pitest-maven version from 1.7.4 to 1.7.5.
+- Update org.apache.maven.plugins:maven-site-plugin version from 3.10.0 to 3.11.0.
+- Update org.apache.maven.plugins:maven-project-info-reports-plugin version from 3.2.1 to 3.2.2.
+- Update com.puppycrawl.tools:checkstyle version from 9.3 to 10.1.
+- Update net.sourceforge.pmd version from 6.42.0 to 6.44.0.
+- Update org.apache.maven.plugins:maven-pmd-plugin version from 3.15.0 to 3.16.0.
+- Update org.codehaus.mojo:versions-maven-plugin version from 2.9.0 to 2.10.0.
+- Update org.owasp:dependency-check-maven version from 6.5.3 to 7.0.4.
+- Update org.apache.maven.plugins:maven-jxr-plugin version from 3.1.1 to 3.3.0.
+- Update org.flywaydb:flyway-core version from 8.4.4 to 8.5.5.
+- Update spotbugs version from 4.5.3 to 4.6.0.
+- Update camel version from 3.15.0 to 3.16.0.
+- Update com.google.protobuf:protobuf-java version from 3.19.4 to 3.20.0.
+- Update io.swagger:swagger-annotations version from 1.6.5 to 1.6.6.
+- Update org.jacoco:jacoco-maven-plugin version from 0.8.7 to 0.8.8.
+
+## [7.0.3] - 2022-03-08
+
+### Added
+- Add title and description to `AppView`.
+- Add endpoint type to `AppEndpointView`.
+
+### Changed
+- Update IDS messaging services version from 6.0.1 to 6.1.0.
+- Set content type of payload when logging to the Clearing House, so that logged items are not
+  encoded in the Clearing House's response to a query.
+
+### Fixed
+- Use connector fingerprints instead of IDs to create processes at the Clearing House.
+- Add relation annotation to `DatabaseDataSourceView` to display all `DataSources` in the same array.
+- Add missing semicolons in baseline.sql to comply with proper SQL syntax for flyway.
+
+## [7.0.2] - 2022-02-16
+
+### Added
+- Add custom view for `DatabaseDataSource` to display URL and driver class.
+
+### Changed
+- Update swagger-annotations version from 1.6.4 to 1.6.5.
+- Update postgresql version from 42.3.2 to 42.3.3.
+
+## [7.0.1-ra] - 2022-02-15
+
+This version is not available in the `main` branch but in `release/v7.0.1-ra`.
+Details on how to run the DSC with remote attestation can be found [here](https://international-data-spaces-association.github.io/DataspaceConnector/Deployment/Configuration#idscp2-usage-and-remote-attestation).
+
+### Added
+- Add `mvn-local` directory and allow the usage of locally published artifacts in the `pom.xml`.
+- Add maven dependencies for velocity, idscp2-tpm2d, idscp2-cmc, grpc-netty, and netty.
+- Add functionality to run the Connector with remote attestation.
+
+### Changed
+- Update `.dockerignore`, `docker-compose.yml` and `Dockerfile`.
+- Increase camel-idscp2 version from 0.6.0 to 0.9.1.
+
+## [7.0.1] - 2022-02-07
+
+### Added
+- Add `portainer.application.connector.network` to `application.properties.`. Default is set to `local`.
+
+### Changed
+- Update equalsverifier version from 3.8.3 to 3.9.
+- Update postgresql version from 42.3.1 to 42.3.2.
+- Update flyway-core version from 8.4.3 to 8.4.4.
+- Update pitest-maven version from 1.7.3 to 1.7.4.
+- Update camel version from 3.14.1 to 3.15.0.
+- Update springdoc.version from 1.6.5 to 1.6.6.
+- Update maven-project-info-reports-plugin version from 3.1.2 to 3.2.1.
+
+### Fixed
+- Deployment of DataApps via Portainer.
+- Escape data source URL before creating data source bean.
+
+## [7.0.0] - 2022-01-31
+
+**WARNING - MAJOR CHANGES**: Before updating, please read [this](https://international-data-spaces-association.github.io/DataspaceConnector/Deployment/DatabaseMigration) guide!
+
+### Added
+- Allow using route ID (URI) as access URL for artifacts.
+- Allow using route ID (URI) as location for subscriptions.
+- Allow specifying route IDs when calling `GET /data` endpoint to automatically dispatch data via these routes.
+  - When a route is specified, requested data will not be persisted in the local database.
+- Allow using API key authentication for `DataSource`.
+- Create sub-types for `DataSourceDesc` for types `REST` and `DATABASE` to allow adding database driver and URL.
+- Create datasource beans from `DataSources` of type `DATABASE` automatically.
+- Add database migration feature.
+  * Offer possibility to migrate databases to `v7.0.0` starting from `v5.0.0`.
+- Add `portainer.application.scheme` to `application.properties.`. Default is set to `http`.
+
+### Changed
+- Change jdk version from 11 to 17.
+- Change encoding of local data from `UTF-16` to `UTF-8`.
+- Change relation between `Route` and `Artifact` to one-to-one (previously one-to-many).
+  - Link is created automatically when an artifact is created with a route reference as access URL.
+- Change field `location` of `Endpoint` from URI to String.
+- Replace template engine `Velocity` with `Freemarker`.
+- Remove suffix *settings* from `ConfigurationDesc` attributes (`truststore`, `proxy`, `keystore`).
+- Log header and payload of sent message in `AbstractMessageService`.
+- Ignore IDS InfoModel version incompatibility for incoming messages. Add log message level warn.
+- Rearrange Swagger UI.
+  - Rename tags.
+    - Rename tag `Messages` to `_Messaging`.
+    - Rename tag `Camel` to `Routes (Apache Camel)`.
+    - Rename tag `Connector` to `_Connector`.
+    - Rename tag `Configurations` to `_Configurations`.
+  - Create tag `_Utils`.
+    - Move `/api/examples/validation` and `/api/examples/policy` to `_Utils`.
+    - Move `/api/utils/enum` to `_Utils`.
+  - Remove annotation `@hidden` from the following REST endpoints:
+    - `/api`
+    - `/api/beans`
+    - `/api/beans/{beanId}`
+    - `/api/camel/routes`
+    - `/api/camel/routes/{routeId}`
+    - `/api/camel/routes/error`
+  - Move contract agreement endpoints to `Contracts`.
+  - Move `/api/configuration/negotiation` and `/api/configuration/pattern` to `_Configurations`.
+- Change REST endpoints.
+  - PUT `/api/routes/{id}/endpoint/start` expects a URI instead of a UUID.
+  - PUT `/api/routes/{id}/endpoint/end` expects a URI instead of a UUID.
+  - Change `POST /api/configmanaer/enum/{enumName}` to `GET /api/utils/enums` and change it to return all types within one call.
+    - Add enum types `POLICY_PATTERN`, `UPDATE_TYPE`, `ENDPOINT_TYPE`, `EVENT_TYPE`, `ERROR_MESSAGE`, `USAGE_CONTROL_FRAMEWORK`, `ACTION_TYPE`, and `DATA_SOURCE_TYPE`.
+    - Change return value of `SECURITY_PROFILE` to the internal model. Add `IDS_SECURITY_PROFILE` for the ids enum.
+    - Change return value of `CONNECTOR_STATUS` to the internal model. Add `IDS_CONNECTOR_STATUS` for the ids enum.
+  - Change `/api/configmanaer/route/error` to `/api/camel/routes/error`.
+- Change response bodies to JSON objects for the following REST endpoints:
+  - `/api/routes/{id}/endpoint/start`
+  - `/api/routes/{id}/endpoint/end`
+  - `/api/examples/validation`
+  - `/api/examples/policy`
+  - `/api/ids/app/actions`
+  - `/api/routes/{id}/endpoint/start`
+  - `/api/routes/{id}/endpoint/end`
+  - `/api/beans`
+  - `/api/beans/{beanId}`
+  - `/api/camel/routes`
+  - `/api/camel/routes/{routeId}`
+  - Of every endpoint that builds an error response with `ResponseUtils`.
+- Add correct content type to the following endpoints:
+  - `/api/notify`
+  - `/api/configurations/{id}/active`
+  - `/api/ids/app`
+  - `/api/examples/validation`
+  - `/api/examples/policy`
+- Make field `type` in `DataSource` transient, as type information is persisted through the `dtype` column created through the `@Inheritance` annotation.
+- Rename param of `/describe` from `actionType` to `type` and change it to type `ActionType`.
+- Change strings of the following enums:
+  - `PolicyPattern`: added strings.
+  - `UsageControlFramework`: e.g. `INTERNAL` to `Internal`.
+  - `ActionType`: e.g. `START` to `Start`.
+  - `EndpointType`: e.g. `APP` to `App`.
+  - `Event`: e.g. `UPDATED` to `Updated`.
+- Update dependencies.
+  - Increase camel version from 3.12.0 to 3.14.1.
+  - Increase spring-boot-starter-parent version from 2.5.6 to 2.6.3.
+  - Increase spotbugs version from 4.4.2 to 4.5.3.
+  - Increase okhttp version from 4.9.2 to 4.9.3.
+  - Increase checkstyle version from 9.1 to 9.3.
+  - Increase pmd version from 6.40.0 to 6.42.0.
+  - Increase springdoc version from 1.5.3 to 1.6.5.
+  - Increase modelmapper version from 2.4.4 to 3.0.0.
+  - Increase equalsverifier version from 3.7.2 to 3.8.3.
+  - Increase log4j2 version from 2.14.0 to 2.17.1.
+  - Increase dependency-check-maven from 6.5.0 to 6.5.3.
+  - Increase maven-site-plugin version from 3.9.1 to 3.10.0.
+  - Increase protobuf version from 3.15.5 to 3.19.4.
+  - Increase jackson version from 2.13.0 to 2.13.1.
+  - Increase swagger-annotations version from 1.6.3 to 1.6.4.
+  - Increase messaging services version from 5.1.1 to 6.0.1.
+  - Increase maven-plugin version from 2.8.1 to 2.9.0.
+  - Increase taglist-maven-plugin version from 2.4 to 3.0.0.
+
+### Fixed
+- XML-escape URLs before injecting them into Camel route templates.
+- Add exception handling for `SSLHandshakeExceptions` caused by PKIX errors.
+- Insert user input for `title` and `description` to example policies at `/api/examples/policy`.
+- Make `/database` accessible again.
+- Add class type check to rule comparison.
+- Remove `@column(unique = true)` from `AppStore` entity.
+- Keep keystore settings for active config if not present in the updated one.
+- Add missing brackets to Camel route templates, so that properties get inserted correctly.
+
+### Removed
+- Remove entity `ConnectorEndpoint` and all corresponding classes.
+
+## [6.5.3] - 2022-01-11
+
+### Changed
+- Increase log4j2 version from 2.16.0 to 2.17.1.
+
+## [6.5.2] - 2021-12-15
+
+### Changed
+- Increase log4j2 version to 2.16.0.
+
+## [6.5.1] - 2021-11-09
+
+### Changed
+- Change base image from debian 10 to 11.
+- Increase checkstyle version from 9.0.1 to 9.1.
+- Increase postgresql version from 42.3.0 to 42.3.1.
+- Increase pmd version from 6.39.0 to 6.40.0.
+- Increase pitest-maven version from 1.7.2 to 1.7.3.
+- Increase dependency-check-maven version from 6.4.1 to 6.5.0.
+
+### Fixed
+- Setting `spring.security.enabled=false` will disable BasicAuth and other security checks.
+- Always use default base URL when creating self-links.
+- Check if dat is null before building an ids message. Remove stack trace, only log the error message.
+
+## [6.5.0] - 2021-10-27
+
+### Added
+- New `application.properties` setting `configuration.force.reload` that forces reloading the configuration from the `config.json` instead of using the latest active configuration from the database. If not set, the default value is `false`.
+
+### Changed
+- Increase spring version from 2.5.5 to 2.5.6.
+- Increase messaging services version from 5.0.1 to 5.1.1.
+
+### Fixed
+- Only create agreements from contract offers with valid start and end date.
+- Check if agreement has expired before returning data.
+- Fix `TransientObjectException` while updating an artifact.
+- Add default constructor to `ApiKey` class, to avoid `InstantiationException`.
+
+## [6.4.0] - 2021-10-21
+
+### Added
+- Add `ids` field to `/actuator/info` endpoint, to monitor the connectors certificate expiration status and DAT infos (if one can be received).
+
+### Changed
+- Increase description column length to 4096.
+- Increase `BasicAuth` (username, password) and `ApiKey` (key, value) column length to 2048.
+- Increase dependency-check-maven version from 6.3.1 to 6.4.1.
+- Increase pitest version from 1.7.1 to 1.7.2.
+- Increase spotbugs version from 4.4.1 to 4.4.2.
+- Increase equalsverifier version from 3.7.1 to 3.7.2.
+- Increase postgresql version from 42.2.24 to 42.3.0.
+- Increase springdoc version from 1.5.11 to 1.5.12.
+- Increase camel-idscp2 version from 0.5.0 to 0.6.0.
+
+### Fixed
+- `ArtifactFactory::updateByteSize` sets `byteSize` and `checksum` to 0 when data is removed.
+- Add nullcheck to `ArtifactService::toInputStream`.
+- Check if representations are null or empty in `getMediaTypeOfArtifact`.
+- Data to be deleted from a consumed artifact, if necessary, is now deleted only once and not with each scheduler call.
+- Fix collisions in bootstrapping process setting a unique path for the `bootstrap.path` property.
+
+## [6.3.1] - 2021-10-05
+
+### Changed
+- Increase pitest-maven version from 1.7.0 to 1.7.1.
+- Increase swagger-annotations version from 1.6.2 to 1.6.3.
+- Increase dependency-check-maven version from 6.3.1 to 6.3.2.
+- Increase jackson version from 2.12.5 to 2.13.0.
+- Increase checkstyle version from 9.0.0 to 9.0.1.
+- Increase okhttp version from 4.9.1 to 4.9.2.
+- Increase springdoc version from 1.5.10 to 1.5.11.
+- Increase camel version from 3.11.2 to 3.12.0.
+
+### Fixed
+- Check for `maxDepth` in `IdsResourceBuilder` when resolving samples to avoid possible `StackOverFlowError`.
+
+## [6.3.0] - 2021-09-30
+
+### Added
+- Add `connector` object to `/actuator/info` endpoint to return available updates and further information.
+- Add boolean `authenticationSet` to configuration entity as indicator for present proxy's authentication credentials.
+
+### Changed
+- Add `ServiceResolver` to remove some Spring annotations from service classes.
+- Refactor and speed up tests.
+- Increase checkstyle version from 8.45.1 to 9.0.0.
+- Increase pmd version from 6.37.0 to 6.38.0.
+- Increase IDS messaging services version from 4.2.2 to 5.0.1.
+- Increase pitest version from 1.69.0 to 1.70.0.
+- Increase dependency-check-maven version from 6.2.2 to 6.3.1.
+- Increase maven-javadoc-plugin version from 3.3.0 to 3.3.1.
+- Increase pmd-maven-plugin version from 3.14.0 to 3.15.0.
+- Increase camel version from 3.11.1 to 3.11.2.
+- Increase pitest-junit-plugin version from 0.14 to 0.15.
+- Increase spotbugs version from 4.3.0 to 4.4.1.
+- Increase postgresql version from 42.2.23 to 42.2.24.
+- Increase spring version from 2.5.4 to 2.5.5.
+- Resolve spotbugs warnings.
+- Increase pmd version from 6.38.0 to 6.39.0.
+- Add additional representation for `paymentMethod` to GUI endpoint.
+
+### Fixed
+- Fix self-reference of `QueryInput` in OpenApi schema.
+- Fix global exception handler intercepting checked exceptions.
+- Create Clearing House process before logging, so that consumer can log under same ID.
+- When creating an artifact, check length of whole URL instead of just path.
+- Use language code instead of language ID when creating `TypedLiterals`.
+- Make `SelfLinkHelper` non-static, so that it can use Spring properties.
+- Use only `/data` and not the request's context path as delimiter for determining additional path for data requests.
+- Create broker in database upon bootstrap start.
+
+## [6.2.0] - 2021-09-01
+
+### Added
+- Add app, app store, and app endpoint entities to the data model.
+  - Provide REST endpoints for managing entities and its relations.
+  - Add REST endpoint for managing image/container deployment with Portainer.
+- Add `POST api/ids/app` endpoint for downloading an IDS app's metadata and data from the IDS AppStore.
+
+## [6.1.3] - 2021-08-27
+
+### Changed
+- Increase spring-boot-starter-parent version from 2.5.3 to 2.5.4
+- Increase jackson version from 2.12.4 to 2.12.5.
+- Increase IDS messaging services version from 3.1.0 to 4.2.2.
+
+### Fixed
+- Set whitelabel error page default value to `enabled` to remove thrown ServletException.
+- Fix connector id mapping from IDS object and to IDS object.
+- Set meaningful default values for mandatory attributes of `ids:ConfigurationModel`.
+- Restrict access to non-functional POST/PUT/DELETE endpoints from contract-request-controllers.
+
+## [6.1.2] - 2021-08-19
+
+### Fixed
+- Add null checking to object mappers.
+
+## [6.1.1] - 2021-08-19
+
+### Added
+- Add `paymentModality` enums to GUI controller.
+
+### Fixed
+- Remove ids endpoint definition from Bootstrapping files.
+
+## [6.1.0] - 2021-08-16
+
+### Added
+- Add value `securityprofile` to GUI helper endpoint.
+- Add default `ids:depth` to `DescriptionRequestMessage`.
+- Add property for specifying the path from which Camel routes are loaded.
+  * Defaults to the `camel-routes` directory in the `resources` folder.
+  * Allow changing Camel routes without recompilation if an external directory is used.
+- Add `paymentModality` and `samples` to resource (for documentation, see [here](https://international-data-spaces-association.github.io/DataspaceConnector/CommunicationGuide/v6/Provider#step-1-register-data-resources)).
+- Add online status validator. Provides the possibility to set the connector `offline`. See how to use this [here](https://international-data-spaces-association.github.io/DataspaceConnector/Deployment/Configuration#step-1-connector-properties).
+- Add `connectorId` to configuration entity.
+- Add alias to keystore and truststore entities.
+- Automatically notify subscribers on a local data update via `PUT /data`.
+
+### Changed
+- Increase pitest version from 1.6.7 to 1.6.9.
+- Use XML DSL instead of Java DSL for definition of Camel routes.
+- Dropping jsonld dependency.
+- Increase maven-enforcer-plugin version from 3.0.0-M3 to 3.0.0.
+- Increase springdoc version from 1.5.9 to 1.5.10.
+- Increase checkstyle version from 8.44 to 8.45.1.
+- Increase pmd version from 6.36.0 to 6.37.0.
+- Increase camel version from 3.11.0 to 3.11.1.
+- Return data with correct content-type in headers, if possible. Fallback stays application/octet-stream.
+- Set default status in `config.json` to `CONNECTOR_ONLINE.`
+- Increase equalsverifier from 3.7.0 to 3.7.1.
+
+### Fixed
+- Restrict access to POST/PUT/DELETE `{entity}/subscriptions` for artifacts and representations.
+- Restrict access to POST/PUT/DELETE `offers/{id}/brokers`.
+- Fix eager service loading causing "Bean not eligable for..." messages.
+- Make configuration attributes read-only: inbound model versions, security profile.
+- Remove error path from `application.properties`.
+- Set correct default properties for new configurations.
+- Fix persistence errors for configurations.
+- Rename `connectorEndpoint` to `defaultEndpoint`.
+
+## [6.0.0] - 2021-07-20
+
+### Added
+- Provide REST endpoint for full-text search at the IDS Broker: `/ids/search`.
+- Check if the issuer connector of an artifact request does correspond to the signed consumer of the transfer contract.
+- Integrate Camel-Spring-Boot version 3.10.0.
+- Integrate [DSC Camel Instance repository](https://github.com/International-Data-Spaces-Association/DSC-Camel-Instance).
+  * Provide REST endpoints for adding and removing Camel routes and Spring beans at runtime.
+- Send `ArtifactRequest` and `ArtifactResponse` messages to the Clearing House.
+- Allow artifacts pointing to backend systems to be created with both BasicAuth and API key authentication.
+- Integrate IDSCPv2 for IDS communication.
+  * Add property `idscp2.enabled` for enabling and disabling IDSCPv2 server. Is disabled by default.
+  * Add properties for configuring keystore and truststore for IDSCPv2.
+  * When enabling IDSCPv2, a valid IDS certificate is required!
+- Implement subscription transfer pattern.
+  * Add user profile for apps/services with access to subscription REST endpoints.
+  * Allow subscriptions for offered & requested resources, representations, and artifacts via REST endpoints.
+  * Create `PUT /notify` endpoint to manually notify subscribers (ids & non-ids).
+  * Automatically notify subscribers on entity updates.
+  * Create REST endpoints for sending (un-)subscriptions via ids messages.
+- Integrate [IDS ConfigManager repository](https://github.com/International-Data-Spaces-Association/IDS-ConfigurationManager).
+  * Extend data model and REST API by entities: auth, broker, configuration, datasource, endpoint, keystore, proxy, route, and truststore.
+  * Add Camel error handler for propagating errors in routes.
+- Persist connector configuration to database.
+  * Load configuration from database.
+  * Choose active configuration from list of configurations.
+- Add policy pattern for security profile restricted data usage.
+
+### Changed
+- Replace IDS Connector Framework v5.0.4 by IDS Messaging Services v2.0.1.
+- Edit response codes and response content for the following endpoints: `/ids/connector/unavailable`, `/ids/connector/update`, `/ids/resource/unavailable`, `/ids/resource/update`, `/ids/query`.
+- Move implementation for sending IDS query, connector, and resource messages to `GlobalMessageService`.
+- Handle DAT retrieving errors in `PRODUCTIVE_DEPLOYMENT` with status code 500 and a corresponding message.
+- Artifact PUT `/api/data` changed response code from Ok (200) to NoContent (204).
+- Change naming of the resource's license attribute from `licence` to `license`.
+- Change `AbstractEntity` to `Entity` and `NamedEntity`.
+- Refactor message handlers using Camel routes.
+- Increase postgres version to 42.2.23.
+- Increase jackson version to 2.12.4.
+- Increase equalsverifier from 3.6.1 to 3.7.0.
+- Increase spotbugs from 4.2.3 to 4.3.0.
+- Increase spring version from 2.5.2 to 2.5.3.
+
+## [5.2.1] - 2021-07-02
+
+### Changed
+- Increase spring-boot version to 2.5.2.
+- Increase checkstyle version to 8.44.
+- Increase pmd version to 6.36.0.
+
+### Fixed
+- Make bootstrapping feature optional. It can be enabled in the `application.properties`.
+
+## [5.2.0] - 2021-06-23
+
+### Added
+- Add `BootstrapConfiguration`.
+  * Allow registering ids catalogs, offered resources, representations, artifacts, and contract offers during start up.
+  * Allow registering offered resources as part of the catalogs to brokers.
+- Add `CatalogTemplate` and matching mapping/build functions.
+- Add a method to `AbstractIdsBuilder` that allows to create elements with a custom base URI.
+- Add `bootstrap.path` to `application.properties` to define the base path where bootstrapping data can be found.
+
+### Changed
+- Change `ConnectorService` to use the connector's ID from `config.json` when `getAllCatalogsWithOfferedResources` is called.
+- Increase IDS Framework version to 5.0.4.
+- Update default Infomodel version to 4.0.10.
+- Increase postgres version to 42.2.22.
+
+### Fixed
+- Fixed missing IDS context in `/api/examples/policy`.
+- Disable autocommit on database transactions.
+- Remove encoding from optional path segment in `HttpService`.
+
+## [5.1.2] - 2021-06-14
+
+### Changed
+- Increase postgresql version to 42.2.21.
+- Increase spring-boot version to 2.5.1.
+
+### Fixed
+- Fixed deletion of artifact data before the set time.
+- Fixed tags with different descriptions in openapi schema.
+- Fixed missing paging information in openapi schema.
+
+## [5.1.1] - 2021-06-09
+
+### Fixed
+- Add missing hateoas information in openapi schema.
+
+## [5.1.0] - 2021-06-07
+
+### Added
+- Add telemetry collection via Jaeger.
+
+### Changed
+- Replace deprecated JPA calls (`getOne` -> `getById`).
+- Increase length restriction for URIs in database columns to 2048.
+- Increase modelmapper version to 2.4.4.
+- Increase equalsverifier version to 3.6.1.
+- Increase spring-openApi-security version to 1.5.9.
+- Increase spring-openapi-ui version to 1.5.9.
+- Increase maven-javadoc-plugin version to 3.3.0.
+- Increase spring-boot version to 2.5.0.
+- Increase checkstyle version to 8.43.
+- Increase pmd version to 6.35.0.
+- Increase pitest version from 1.6.6 to 1.6.7.
+
+### Fixed
+- Representations have now only one self-link.
+- Set Basic Auth Header on (provider) backend calls.
+- Ignore empty extension `/**` on `GET **/artifacts/{id}/data/**`.
+- `GET **/artifacts/{id}/data` and `POST **/artifacts/{id}/data` will now return the same output.
+
+## [5.0.2] - 2021-05-25
+
+### Changed
+- Make the Clearing House url setting optional in `application.properties`.
+
+### Fixed
+- Persist URIs as strings in database.
+
+## [5.0.1] - 2021-05-19
+
+### Changed
+- H2 does not persist database to files.
+- Change additional list mapping for received attribute list with a single item.
+- Disable unused rolling file appender in `log4j2.xml`.
+
+## [5.0.0] - 2021-05-17
+
+### Added
+- Partially support of HATEOAS.
+- Add pagination for REST calls on resources.
+- Integration and configuration of Jaeger for using open telemetry.
+- Set default application name to `Dataspace Connector` in `application.properties`.
+- Add custom spring banner.
+- Add separate controller methods for each IDS message type.
+- Add global exception handlers for `ResourceNotFoundException`, `JsonProcessingException`, and any `RuntimeException`.
+- Add possibility to disable http tracer in `application.properties`.
+- Add possibility to restrict depth of returned IDS information on `DescriptionRequest`.
+  * Change IDS self-description to returning only a list of catalogs instead of their whole content.
+  * Add possibility to send `DescriptionRequestMessages` for other elements than resources.
+- Add remote IDs to each object for tracking origin.
+- Support multiple policy patterns in one contract.
+- Add Unit tests and integration tests.
+- Add quality checks and project reports to `pom.xml`: execute with `mvn verify site`.
+- Improve contract negotiation and usage control.
+  * Add contract agreement validation in `ContractAgreementHandler`.
+  * Note pre-defined providers for contract offers in `ContractRequestHandler`.
+  * Use contract agreements for policy enforcement.
+  * Handle out contract agreements for multiple artifacts (targets) within one negotiation sequence.
+  * Restrict agreement processing to confirmed agreements.
+  * Add relation between artifacts and agreements.
+- Add possibility to subscribe backend URLs for updates to a requested resource.
+
+### Changed
+- Support of IDS Infomodel v4.0.4 (direct import in `pom.xml`).
+- Change IDS Framework version to v4.0.7.
+- Http tracer is limited to 10000 characters per log line.
+- Log file creation is disabled by default.
+- Move Swagger UI to `/api/docs`.
+- Change response type from string to object.
+- Use correct response codes as defined by RFC 7231.
+- Replace old data model: catalogs, resources, representations, artifacts, contract, rules, and agreements.
+  * Separate `ResourceRepresentation` into `Representation` and `Artifact`.
+  * Separate `ResourceContract` into `Contract` and `Rule`.
+  * Handle data in own database entity.
+  * Separate management of resources and its relations.
+  * Define clear interfaces between data model and the IDS Infomodel objects.
+  * Add IDS object builder classes.
+    * Build ids:Resource only if at least 1 representation and 1 contract is present.
+    * Build ids:Representation only if at least 1 artifact is present.
+    * Build ids:ContractOffer only if at least 1 rule is present.
+  * Move remote information from `BackendSource` to `Artifact`.
+- Strict implementation of model view controller pattern for data management.
+  * Controller methods for resources and representations.
+  * Provide strict access control to backend. Information can only be read and changed by services.
+  * Strict state validation for entities via factory classes.
+- Change IDS messaging sequence: Start with `ContractRequestMessage` for automated `DescriptionRequestMessage` and `ArtifactRequestMessage`.
+- Improve data transfer.
+  * Process bytes instead of strings.
+  * Remove limit for data in internal database.
+  * Establish connection via `ArtifactRequestMessage` for always pulling recent data.
+
+### Fixed
+- Fix of buffer overflow in http tracer.
+- Make message handler stateless.
+
+### Security
+- Prevent leaking of technology stack in case of errors/exceptions.
+- Logger sanitizes inputs to prevent CRLF injections.
+- Mass Bindings.
+- Timezone independence.
+
+## [4.3.1] - 2021-04-15
+
+### Changed
+- Set builder image to JDK 11.
+
+## [4.3.0] - 2021-03-24
+
+### Added
+- Configure timeout values for http connections via `application.properties`.
+
+## [4.2.0] - 2021-03-09
+
+### Added
+- New policy pattern: connector-restricted data usage.
+- Validate `CONNECTOR_RESTRICTED_USAGE` on data request (as a provider).
+
+## [4.1.0] - 2021-03-02
+
+### Added
+- Handle `ResourceUpdateMessage`: Update the local copy of resource upon receiving a `ResourceUpdateMessage`.
+- Add attribute for endpoint documentation reference to `ResourceMetadata`.
+- Store `ownerURI`, `contractID`, `artifactID`, and `originalUUID` in `RequestedResource`.
+- Add support for query params, path variables, and additional headers when requesting artifacts.
+- Add input validation for query params, path variables, and headers.
+- Add usage control framework checking to the classes `PolicyEnforcement` and `PolicyHandler`.
+- Add example files for deployment in Kubernetes.
+
+### Changed
+- Configure Spring to fail on unknown properties in request bodies.
+- Move settings for policy negotiation and allowing unsupported patterns to `application.properties`.
+- Refactor HttpUtils to use the IDS Framework's `HttpService`.
+- Add data string as request body instead of request parameter.
+
+### Fixed
+- Exclusive use of the `ConfigurationContainer` for processing the connector's self-description and configurations to avoid state errors (relevant for the broker communication).
+
+## [4.0.2] - 2021-02-04
+
+### Added
+- Add message handler for `ContractAgreementMessage`.
+
+### Changed
+- Answer with a `MessageProcessedNotificationMessage` to the consumer's `ContractAgreementMessage`.
+- Save the `ContractAgreement` to the database and the Clearing House when the second `AgreementMessage` has been processed.
+- Refine exception handling in the message building and sending process.
+- Update from IDS Framework v4.0.2 to v4.0.3.
+
+### Fixed
+- Send `ContractAgreementMessage` as request message.
+
+## [4.0.1] - 2021-01-28
+
+### Changed
+- Update from IDS Framework v4.0.1 to v4.0.2.
+
+## [4.0.0] - 2021-01-25
+
+### Added
+- Add public endpoint for self-description without resource catalog and public key.
+- Add example endpoints.
+- Add exceptions and detailed exception handling.
+- Create `UUIDUtils` for uuid handling.
+- Create `ControllerUtils` for http responses.
+- Add endpoints for contract negotiation.
+- Add http tracing and improved logging.
+- Add custom profiles for Maven.
+- Add negotiation service.
+- Add Spring actuators.
+- Add contract agreement repository.
+
+### Changed
+- Change object handling and model classes.
+    - Move attribute `system` from `BackendSource` as `name` to `ResourceRepresentation`.
+    - Move attribute `sourceType` from `ResourceRepresentation` as `type` to `BackendSource`.
+    - Migrate `ResourceRepresentation` to map.
+- Remove requested resource list from description response.
+- Rename broker communication and self-description endpoints.
+- Improve exception handling.
+- Improve message handler and sending request messages in `de.fraunhofer.isst.dataspaceconnector.services.messages`.
+- Change package structure.
+- Add abstract class to resource service implementations.
+- Edit policy handler.
+- Improve `pom.xml`.
+- Remove local caching of ids resources.
+- Update to IDS Framework v4.0.1.
+- Restructure `README.md` and wiki.
+- Move code of conduct from `CONTRIBUTING.md` to `CODE_OF_CONDUCT.md`.
+- Add response code annotations to endpoint methods.
+- Change http response formatting.
+- Replace Log4j1 with Log4j2.
+
+### Fixed
+- Update connector of configuration container before sending a broker message.
+- Enforce access counter usage by moving it to an isolated method.
+
+## [3.2.1] - 2020-11-05
+
+### Added
+- Update and delete resources from broker.
+- Add configuration controller for GET and PUT configuration model.
+- Add possibility to set a resource id on create.
+- Add possibility to set a representation id on create.
+- Add a description of how the internal database can be replaced by another.
+- Add .dockerignore file.
+
+### Changed
+- Update to IDS framework v3.2.3.
+- Move self-service and example endpoints to admin API.
+- Improve Dockerfile.
+- Add key- and truststore to example configuration.
+- Add default policy (provide access) to resource on creation.
+
+### Fixed
+- Add representation.
+- Fix token error in test classes.
+- Fix file path in packaged jar.
+
+## [3.2.0] - 2020-10-09
+
+### Added
+- Autowire ConfigurationContainer in constructor to instantiate Connector, KeyStoreManager or ConfigurationModel (previously directly autowired).
+- Add ClientProvider field to all classes using an OkHttpClient (create instance in constructor from autowired ConfigurationContainer) & replace calls to IDSUtils.getClient() with clientProvider.getClient().
+- Add file URI scheme to paths of KeyStore and TrustStore in config.json.
+- Add test classes: SelfDescriptionTest, RequestDescriptionTest, RequestArtifactTest, DescriptionRequestMessageHandlingTest, ArtifactRequestMessageHandlingTest.
+
+### Changed
+- Change call to BrokerService constructor (parameters changed) in BrokerController.
+- Change call to IDSHttpService constructor (parameters changed) in ConnectorRequestServiceImpl.
+- Replace ConfigProducer with ConfigurationContainer in IdsUtils, MainController and DescriptionMessageHandler.
+
+### Removed
+- IDS Connector certificate file.
+
+## [3.1.0] - 2020-09-29
+
+### Added
+- Detailed Javadoc.
+- Endpoint for example usage policies.
+- Create NotificationMessageHandler for incoming notification messages. (TODO: not yet working, due to a pending IDS Framework update)
+
+### Changed
+- Integrate IDS policy language.
+- Modify policy patterns.
+- Adapt policy reader to new policy language.
+- Adapt usage control implementation to new patterns.
+
+### Removed
+- Old ODRL and policy resource examples.
+- Custom ODRL model.
+- Remove external backend application from test setups.
+
+## [3.0.0] - 2020-09-02
+
+### Changed
+- Update to Information Model v4.0.0.
+- Update to Framework v3.1.0.
+- Replace config.yaml with config.json.
+- Redesign resource model.
+    - Add representations and multiple source types.
+    - Distinguish between offered and requested resources in two separate database tables.
+- Redesign connector open API.
+    - Add contract endpoints.
+    - Add representation endpoints.
+    - Request data by resource id and endpoint id.
+    - Removed parameters from connector requests.
+- Add two separated resource services.
+- Keep the self-description up to data at runtime with every resource change.
+- Move the automated policy check to a separate policy enforcement class.
+- Improve the requested metadata and data deserializing and saving.
+- Improve http utils.
+- Improve message handler.
+    - Return description in IDS format with an odrl usage policy as property.
+    - Request a specific artifact instead of a data resource.
+
+### Removed
+- Remove IDS configmodel.
+- Remove unused communication service classes.
+- Remove token service classes.
+
+## [2.0.2] - 2020-08-26
+
+### Changed
+- Remove ISST private repository and settings.
+- Add public ISST repository.
+
+## [2.0.1] - 2020-08-03
+
+### Added
+- Add DAT request every hour.
+- Add RequestMessageServiceUtils class for response handling.
+- Add operator check on COUNT_ACCESS.
+- Add h2 remote access.
+- Add NO_POLICY pattern.
+- Add prohibition of requested metadata update for data consumer.
+
+### Changed
+- Change odrl model (minimize).
+- Changed requested metadata + data saving.
+
+### Fixed
+- Fix DescriptionMessageHandler policy check.
+- Fix request DAT from DAPS.
+
+## [2.0] - 2020-07-22
+
+### Added
+- Add data resource values: created, internal.
+- Add odrl policy model.
+- Add example odrl policies.
+- Add requested resource (resourceMetadata + data) saving.
+- Add policy pattern recognition: PROVIDE_ACCESS, TIME_INTERVAL, INHIBIT_ACCESS, LOG_ACCESS, COUNT_ACCESS, DELETE_AFTER (duration/date).
+- Add usage control implementation as data provider: at artifact message handler (PROVIDE_ACCESS, TIME_INTERVAL, INHIBIT_ACCESS).
+- Add usage control implementation as data consumer: at data access (TIME_INTERVAL, LOG_ACCESS, COUNT_ACCESS).
+- Add automated usage control implementation as data consumer: COUNT_ACCESS, DELETE_AFTER (duration/date).
+
+### Changed
+- Change data resource model: separated uuid and uri from resourceMetadata.
+
+## [1.0.1] - 2020-07-16
+
+### Added
+- Add connection to external data resource HTTP API.
+- Add connection to external data resource HTTP API with basic auth.
+
+### Changed
+- Change naming to Dataspace Connector.
+- Change DescriptionRequestHandler to return IDS metainformation.
+
+## [1.0.0] - 2020-07-01
+
+### Added
+- Setup a basic Spring Boot application.
+- Integrate the IDS Framework v2.0.12 and Infomodel v3.1.0.
+- Provide REST endpoints for resource handling and IDS communication.
+- Add a H2 database for saving resources (data & resourceMetadata).
+- Provide a documentation for setting up the application with Maven and Docker.
+- Add message handling for incoming ArtifactRequestMessages and DescriptionRequestMessages.
+- Add IDS Broker communication (register, unregister, update, query).
+- Setup a Swagger UI.
+- Add basic authentication for the backend API.
+- Add proxy and certification basic setup.
+- Provide an example Postman collection.

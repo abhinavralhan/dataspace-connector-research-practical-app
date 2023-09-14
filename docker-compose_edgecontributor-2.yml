@@ -1,0 +1,134 @@
+version: '3'
+name: edgecontributor-2
+services:
+  mongodb2:
+    image: mongo:latest
+    container_name: mongodb2
+    hostname: mongodb
+    restart: unless-stopped
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes: 
+      - mongoDB-data2:/data/db
+      - mongoDB-config2:/data/configdb
+    networks:
+      - mobileapplication2
+
+  mongo-express2:
+    image: mongo-express:latest
+    container_name: mongo-express2
+    hostname: mongo-express
+    restart: unless-stopped
+    ports:
+      - 8062:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongodb
+    depends_on:
+      - mongodb2
+    networks:
+      - mobileapplication2
+
+  camel2:
+    container_name: camel2
+    hostname: camel
+    build:
+      context: ./middleware
+    ports:
+      - 8031:8030
+    networks:
+      - mobileapplication2
+    depends_on:
+      - mongodb2
+      - datasynthesizer2
+      - edge-contributor-2
+      - machinelearning2
+  
+  datasynthesizer2:
+    build:
+      context: ./datasynthesizer
+    container_name: datasynthesizer2
+    hostname: datasynthesizer
+    restart: unless-stopped
+    networks:
+      - mobileapplication2
+    depends_on:
+      - mongodb2
+
+  machinelearning2:
+    build:
+      context: ./machinelearningmodel
+    container_name: machinelearning2
+    hostname: machinelearning
+    restart: unless-stopped
+    networks:
+      - mobileapplication2
+
+  postgres-edge-contributor-2:
+    image: postgres:13
+    container_name: 'postgres-edge-contributor-2'
+    hostname: postgres-edge-contributor-2
+    ports:
+      - "5442:5432"
+    env_file:
+      - ./DataspaceConnector/postgres-edge-contributor-2.env
+    networks:
+      - mobileapplication2
+    volumes:
+     - edge-contributor-2:/var/lib/postgresql/data
+
+  edge-contributor-2:
+    build:
+      context: ./DataspaceConnector
+    container_name: 'edge-contributor-2'
+    hostname: edge-contributor
+    ports:
+      - 8082:8080
+    env_file:
+      - ./DataspaceConnector/edge-contributor-2.env
+    environment:
+      - SERVER_SSL_ENABLED=false
+    networks:
+      - mobileapplication2
+    depends_on:
+      - postgres-edge-contributor-2
+
+  edge-contributor-ui-2:
+    build:
+      context: ./DataspaceConnector/DataspaceConnector-UI
+    container_name: 'edge-contributor-ui-2'
+    hostname: edge-contributor-ui
+    environment:
+      - CONNECTOR_URL=http://edge-contributor:8080
+      - CONNECTOR_USER=admin
+      - CONNECTOR_PASSWORD=password
+    ports:
+      - "8092:8083"
+    networks:
+      - mobileapplication2
+    depends_on:
+      - edge-contributor-2
+    
+  webframework2:
+    build:
+      context: ./webframework
+    hostname: webframework
+    ports:
+      - "81:80"
+    environment:
+      - NODE_ENV=production
+    restart: on-failure
+    networks:
+      - mobileapplication2
+    depends_on:
+      - camel2
+
+networks:
+  mobileapplication2:
+
+volumes:
+  mongoDB-data2: {}
+  mongoDB-config2: {}
+  edge-contributor-2: {}

@@ -1,0 +1,12 @@
+.idea
+.venv
+.coverage
+**/__pycache__/**
+data/*
+development.env
+.envrc
+.vscode
+venv
+.DS_Store
+development.list
+.python-version

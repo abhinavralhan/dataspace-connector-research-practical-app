@@ -1,0 +1,30 @@
+{
+	"eventId": "244ca386-89a5-4b7e-8ac4-4b7dd4fee74e",
+	"eventTimestamp": "11/12/2022 08:20:43",
+	"dataSource": "app",
+	"healthState": "good",
+	"generalHealthStats": {
+		"stepCount(cumulativeforday)": 4000,
+		"stress(0to5)": 3,
+		"bloodOxygen(mmHg)": 95,
+		"sleepHours": 8,
+		"REMsleepHours": 4,
+		"caloriesBurnt(cumulativeforday)": 2000
+	},
+	"user": {
+		"user_id": "fdde5bd5-1146-48df-94ef-d56532290901",
+		"firstname": "john",
+		"lastname": "doe",
+		"gender": "male",
+		"age": 23,
+		"weight(kg)": 88,
+		"height(cm)": 176
+	},
+	"vitals": {
+		"heartRate(bpm)": 72,
+		"systolicBloodPressure(mmHg)": 130,
+		"diastolicBloodPressure(mmHg)": 70,
+		"bodyTemperature(F)": 98.6,
+		"breathingFrequency(perminute)": 15
+	}
+}

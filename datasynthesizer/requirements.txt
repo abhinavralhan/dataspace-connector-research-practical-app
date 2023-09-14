@@ -1,0 +1,7 @@
+fastapi==0.73.0
+uvicorn==0.17.4
+pandas==1.5.2
+numpy==1.24.1
+scikit-learn==1.2.0
+jupyterlab==3.5.2
+Faker==14.2.1

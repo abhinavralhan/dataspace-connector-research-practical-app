@@ -1,0 +1,59 @@
+version: '3'
+name: trainingcoordinator
+services:
+
+  postgres-training-coordinator:
+    image: postgres:13
+    container_name: 'postgres-training-coordinator'
+    ports:
+      - "5440:5432"
+    env_file:
+      - ./DataspaceConnector/postgres-training-coordinator.env
+    networks:
+      - trainingcoordinator
+    volumes:
+      - training-coordinator:/var/lib/postgresql/data
+
+  training-coordinator:
+    build:
+      context: ./DataspaceConnector
+    container_name: 'training-coordinator'
+    ports:
+      - 8080:8080
+    env_file:
+      - ./DataspaceConnector/training-coordinator.env
+    networks:
+      - trainingcoordinator
+    depends_on:
+      - postgres-training-coordinator
+
+  training-coordinator_ui:
+    build:
+      context: ./DataspaceConnector/DataspaceConnector-UI
+    container_name: 'training-coordinator_ui'
+    environment:
+        - CONNECTOR_URL=https://training-coordinator:8080
+        - CONNECTOR_USER=admin
+        - CONNECTOR_PASSWORD=password
+    ports:
+      - "8090:8083"
+    networks:
+      - trainingcoordinator
+    depends_on:
+      - training-coordinator
+
+  trainingcoordinator:
+    build:
+      context: ./trainingcoordinator
+    container_name: trainingcoordinator
+    restart: unless-stopped
+    ports:
+      - 4000:4000
+    networks:
+      - trainingcoordinator
+
+networks:
+  trainingcoordinator:
+
+volumes:
+  training-coordinator: {}

@@ -1,0 +1,25 @@
+<div class="side-panel" *ngIf="agreementList">
+  <div class="container">
+		<h2>Agreements</h2>
+		<p>All agreements that are or were used to exchange data with other persons and applications are displayed here.</p>
+	</div>
+    <ng-container >
+    <div *ngFor="let agreement of agreementList" class="card">
+      <h2>{{agreement.artifactTitle}}</h2>
+      <p class="card-text">{{agreement.artifactDescription}}</p>
+      <p class="card-text">Agreement Modification Date: <span class="card-node-value">{{agreement.agreementModificationDate}}</span></p>
+      <p class="card-text">Agreement Link: <span class="card-node-value">{{agreement.agreementLink}}</span></p>
+      <p class="card-text">contract End: <span class="card-node-value">{{agreement.contractEnd}}</span></p>
+      <p class="card-text">Artifact Modification Date: <span class="card-node-value">{{agreement.artifactModificationDate}}</span></p>
+      <p class="card-text">Contract CreationDate: <span class="card-node-value">{{agreement.contractCreationDate}}</span></p>
+      <p class="card-text">Contract Start: <span class="card-node-value">{{agreement.contractStart}}</span></p>
+      <p class="card-text">Consumer: <span class="card-node-value">{{agreement.consumer}}</span></p>
+      <p class="card-text">Permission Description: <span class="card-node-value">{{agreement.permissionDescription}}</span></p>
+      <p class="card-text">Artifact Title: <span class="card-node-value">{{agreement.artifactTitle}}</span></p>
+      <p class="card-text">Artifact Description: <span class="card-node-value">{{agreement.artifactDescription}}</span></p>
+
+    </div>
+  </ng-container>
+  </div>
+
+  <div *ngIf="!agreementList" style="color: white;"> Nothing to display </div>

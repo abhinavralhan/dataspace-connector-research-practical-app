@@ -1,0 +1,129 @@
+<div *ngIf="showLoader" class="loader">
+  <div class="loader__spinner"></div>
+</div>
+<div class="toaster">
+  <p class="toaster-message">Operation Successful!</p>
+</div>
+<mat-tab-group dynamicHeight animationDuration="1500ms">
+  <mat-tab label="Vital Health Data">
+    <div class="container" class="button-container">
+      <mat-card class="chart-card">
+        <mat-card-content>
+          <mat-form-field appearance="fill">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
+              <input matEndDate placeholder="End date" [(ngModel)]="endDate">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker>
+              <mat-date-range-picker-actions>
+                <button mat-button matDateRangePickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" (click)="onSubmit()" matDateRangePickerApply>Apply</button>
+              </mat-date-range-picker-actions>
+            </mat-date-range-picker>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" (click)="getLast15MinutesData()">Last 15 minutes</button>
+          <button mat-raised-button color="primary" (click)="getLast1HourData()">Last 1 hour</button>
+          <button mat-raised-button color="primary" (click)="getLast12HourData()">Last 12 hours</button>
+          <button mat-raised-button color="primary" (click)="getLast48HoursData()">Last 48 hours</button>
+
+          <ng-container *ngIf="isLoaded">
+            <canvas baseChart class="chart" [data]="firstChartData" [options]="lineChartOptions" height="40" width="100"
+              [type]="lineChartType"></canvas>
+          </ng-container>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Health Status Table">
+    <div class="search-bar">
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. 100" #input>
+      </mat-form-field>
+    </div>
+    <div class="mat-elevation-z0 table" *ngIf="source">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="eventTimestamp">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+          <td mat-cell *matCellDef="let element"> {{element.eventTimestamp}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="heartRate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Heart Rate </th>
+          <td mat-cell *matCellDef="let element"> {{element.heartRate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="systolicBP">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Systolic BP </th>
+          <td mat-cell *matCellDef="let element"> {{element.systolicBP}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="diastolicBP">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Diastolic BP </th>
+          <td mat-cell *matCellDef="let element"> {{element.diastolicBP}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bodyTemperature">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Body Temperature </th>
+          <td mat-cell *matCellDef="let element"> {{element.bodyTemperature}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="breathingFrequency">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Breathing Frequency </th>
+          <td mat-cell *matCellDef="let element"> {{element.breathingFrequency}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="healthState">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Health State </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="!element.isEditing">{{element.healthState}} <i class="fa fa-pencil"
+                (click)="startEditing(element)"></i></div>
+            <div *ngIf="element.isEditing"><input [(ngModel)]="element.healthState"> <button
+                (click)="element.isEditing = false; showSnackbar('Health state updated successfully')">Save</button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Data Exchange">
+    <div class="container">
+      <app-agreement-view></app-agreement-view>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Dev mode">
+    <div class="container">
+      <div class="center">
+        <button (click)="executeMlModel()" class="button">Trigger Data Synthesizer</button>
+        <button (click)="triggerTraining()" class="button">Trigger training</button>
+        <button (click)="getHyperParams()" class="button">Hyper parameters</button>
+      </div>
+    </div>
+    <div *ngIf="hyperParams && hyperParams.length>0" class="hyper">
+      <table>
+        <tr>
+          <th>Max Depth</th>
+          <th>Random State</th>
+          <th>Min Samples Split</th>
+        </tr>
+        <tr *ngFor="let param of hyperParams">
+          <td>{{param.max_depth}}</td>
+          <td>{{param.random_state}}</td>
+          <td>{{param.min_samples_split}}</td>
+        </tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
